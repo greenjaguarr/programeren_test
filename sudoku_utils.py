@@ -1,5 +1,6 @@
 import numpy as np
 class Sudoku():
+
     def __init__(self):
         # self.BOARD = np.zeros(81,dtype='int')
         self.BOARD = [0]*81
@@ -13,10 +14,7 @@ class Sudoku():
         self.BLOCK8= self.BLOCK7+3
         self.BLOCK9= self.BLOCK8+3
         self.BLOCKS = [self.BLOCK1,self.BLOCK2,self.BLOCK3,self.BLOCK4,self.BLOCK5,self.BLOCK6,self.BLOCK7,self.BLOCK8,self.BLOCK9]
-
-
-# BLOCK_to_name = { BLOCK:str(j)for j,BLOCK in enumerate(BLOCKS)}
-# print(BLOCK7)
+        self.length = 81
     def test_BLOCKS(self):
         for i in range(1,82):
             i_is_found = False
@@ -26,6 +24,8 @@ class Sudoku():
             if i_is_found == False:
                 print("Something went wrong",i)
 
+    def reset(self):
+        self.BOARD = [0]*self.length
     # Make functions
     def show_BOARD(self):
         '''Properly turns 81 items long list to print'''
@@ -140,6 +140,33 @@ class Sudoku():
         if not column_valid: return False
         return True
 
+    def fill(self,fill_amount=0):
+        to_fill = 81
+        if fill_amount == to_fill: #Exit condition
+            # print('#We are done', fill_amount)
+            return "oppleuren"#Void function
+        
+        index = 81 - (to_fill-fill_amount)
+        possible_numbers = [1,2,3,4,5,6,7,8,9]
+        for num in possible_numbers:
+            if self.is_valid(num,index):
+                self.BOARD[index]=num
+                result = self.fill(fill_amount+1)
+                if result == "oppleuren":
+                    # print("hasteflats")
+                    return "oppleuren"
+            else:
+                pass #Waarom werkt het enigszins
+        #No numbers were valid
+        # print("Hello there")
+
+    def generate_sudoku(self):
+        import random
+        randstart = random.sample(range(1,10),9)
+    # print(randstart)
+        self.BOARD[:9] = randstart
+    # sudoku.fill = fill
+        self.fill(fill_amount=9)
 
 if __name__ == "__main__":
     sudoku = Sudoku()
