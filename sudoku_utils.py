@@ -46,6 +46,11 @@ class Sudoku():
         self.BOARD[:5] = [1,2,3,4,5]
         self.show_BOARD(self.BOARD)
 
+    def mask(self,i:int):
+        masked_board = np.copy(self.BOARD)
+        masked_board[i+1:] = 0
+        return masked_board
+
 
     def which_BLOCK(self,i:int)->int:
         '''This function returns the BLOCK that i is in'''
@@ -102,21 +107,24 @@ class Sudoku():
     def is_column_valid(self,num,i)->bool:
         column = self.which_column(i)
         indices = np.array([1,10,19,28,37,46,55,64,73]) + column - 2
-        to_check = self.BOARD[indices]
+        masked_board = self.mask(i)
+        to_check = masked_board[indices]
         if num in to_check: return False
         else: return True
 
     def is_row_valid(self,num,i)->bool:
         row = self.which_row(i)
         indices = (row-1)*9 + np.array([1,2,3,4,5,6,6,7,8,9]) - 1
-        to_check = self.BOARD[indices]
+        masked_board = self.mask(i)
+        to_check = masked_board[indices]
         if num in to_check: return False
         else: return True
 
     def is_block_valid(self,num,i)->bool:
         block_index = self.which_BLOCK(i)
         block = self.BLOCKS[block_index-1]
-        to_check = self.BOARD[block-1]
+        masked_board = self.mask(i)
+        to_check = masked_board[block-1]
         if num in to_check: return False
         else: return True
 
