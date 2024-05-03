@@ -1,7 +1,8 @@
 import numpy as np
 class Sudoku():
     def __init__(self):
-        self.BOARD = np.zeros(81,dtype='int')
+        # self.BOARD = np.zeros(81,dtype='int')
+        self.BOARD = [0]*81
         self.BLOCK1= np.array([1,2,3,10,11,12,19,20,21]) #We gebruiken index beginnend bij 0
         self.BLOCK2= self.BLOCK1+3
         self.BLOCK3= self.BLOCK2+3
@@ -96,11 +97,11 @@ class Sudoku():
         return (i%9) + 1
 
     def test_which_column(self):
-        indeces = np.linspace(1,81,81)
+        indeces = np.linspace(0,80,81)
         columns = self.which_column(indeces)
         for index,column in zip(indeces,columns):
             # print(index,column, (index-column)/9)
-            if not (index-column)/9 == (index-column)//9:
+            if not (index+1-column)/9 == (index+1-column)//9:
                 print(f"Test which column didnt pass because {index} resulted in {column}")
         print("Test which column finished")
 

@@ -1,4 +1,5 @@
 from sudoku_utils import Sudoku
+import random
 
 fill_amount_start = 0
 to_fill = 81
@@ -22,20 +23,35 @@ def fill(fill_amount):
     # print("Hello there")
     if fill_amount<9:
         print("whoopsieeee")
-help = False
 
-    
-    
+# sudoku = Sudoku()
+# sudoku.fill = fill
 
-sudoku = Sudoku()
-sudoku.fill = fill
+# if help:
+#     s = [1,2,3,4,5,6,7,8,9,4,5,6,7,8,9,1,2,3,7,8,9,1,2,3,4,5,6,2,1,4,3]
+#     sudoku.BOARD[:len(s)] = s
+#     fill_amount_start = len(s)
+# sudoku.show_BOARD()
 
-if help:
-    s = [1,2,3,4,5,6,7,8,9,4,5,6,7,8,9,1,2,3,7,8,9,1,2,3,4,5,6,2,1,4,3]
-    sudoku.BOARD[:len(s)] = s
-    fill_amount_start = len(s)
-sudoku.show_BOARD()
+# sudoku.fill(fill_amount=fill_amount_start)
 
-sudoku.fill(fill_amount=fill_amount_start)
+# sudoku.show_BOARD()
 
-sudoku.show_BOARD()
+N = 1 #Number of sudokus to be generated
+sudokus = []
+for k in range(N):
+    print(f"Iteration {k+1} out of {N}")
+    sudoku = Sudoku()
+    randstart = random.sample(range(1,10),9)
+    print(randstart)
+    sudoku.BOARD[:9] = randstart
+    sudoku.fill = fill
+    sudoku.fill(fill_amount=9)
+    sudokus.append(sudoku.BOARD)
+    sudoku.show_BOARD()
+
+print(sudokus)
+with open("fresh_sudoku's.txt",'w') as outfile:
+    for sudoku in sudokus:
+        outfile.write(str(sudoku))
+        outfile.write(',\n')
