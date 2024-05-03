@@ -22,7 +22,7 @@ def test_BLOCKS():
             print("Something went wrong",i)
 
 # Make functions
-def show_BOARD(local_BOARD):
+def show_BOARD(local_BOARD=BOARD):
     '''Properly turns 81 items long list to print'''
     for i in range(3):
         #Print3blocks
@@ -91,24 +91,35 @@ def test_which_column():
             print(f"Test which column didnt pass because {index} resulted in {column}")
     print("Test which column finished")
 
-def is_column_valid(num):
-    column = which_column()
-    pass
+def is_column_valid(num,i)->bool:
+    column = which_column(i)
+    indices = np.array([1,10,19,28,37,46,55,64,73]) + column - 1
+    to_check = BOARD[indices]
+    if num in to_check: return False
+    else: return True
 
-def is_row_valid(num):
-    row = which_row()
-    pass
+def is_row_valid(num,i)->bool:
+    row = which_row(i)
+    indices = (row-1)*9 + np.array([1,2,3,4,5,6,6,7,8,9])
+    to_check = BOARD[indices]
+    if num in to_check: return False
+    else: return True
 
-def is_block_valid(num):
-    block = which_BLOCK()
+def is_block_valid(num,i)->bool:
+    block_index = which_BLOCK(i)
+    block = BLOCKS[block_index-1]
+    to_check = BOARD[block]
+    if num in to_check: return False
+    else: return True
 
-def is_valid(BOARD,num:int,i:int)->bool:
+
+def is_valid(num:int,i:int,BOARD=BOARD)->bool:
     '''This function tests is num can be places at place i in BOARD'''
-    row_valid = is_row_valid()
+    row_valid = is_row_valid(num,i)
     if not row_valid: return False
-    block_valid = is_block_valid()
+    block_valid = is_block_valid(num,i)
     if not block_valid: return False
-    column_valid = is_column_valid()
+    column_valid = is_column_valid(num,i)
     if not column_valid: return False
     return True
 
@@ -116,3 +127,8 @@ def is_valid(BOARD,num:int,i:int)->bool:
 test_which_BLOCK()
 test_which_column()
 test_which_row()
+
+
+BOARD[:9] = [1,2,3,4,5,6,7,8,9]
+show_BOARD()
+print(is_valid(6,20))
