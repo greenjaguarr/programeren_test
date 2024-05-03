@@ -36,9 +36,11 @@ def fill(fill_amount):
 # sudoku.fill(fill_amount=fill_amount_start)
 
 # sudoku.show_BOARD()
-
-N = 1 #Number of sudokus to be generated
+times = []
+import time
+N = 20 #Number of sudokus to be generated
 sudokus = []
+times.append(time.time())
 for k in range(N):
     print(f"Iteration {k+1} out of {N}")
     sudoku = Sudoku()
@@ -49,9 +51,18 @@ for k in range(N):
     sudoku.fill(fill_amount=9)
     sudokus.append(sudoku.BOARD)
     sudoku.show_BOARD()
+    times.append(time.time())
 
 print(sudokus)
 with open("fresh_sudoku's.txt",'w') as outfile:
     for sudoku in sudokus:
         outfile.write(str(sudoku))
         outfile.write(',\n')
+
+import matplotlib.pyplot as plt
+import numpy as np
+dt = np.diff(times)
+print(np.mean(dt))
+plt.figure()
+plt.plot(dt,'.')
+plt.show()
